@@ -36,3 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+src/main/java/ensa/edulinker/backend.Main.java
+test/main/java/ensa/edulinker/backend.MySQLDBConnectionTest.java
