@@ -54,6 +54,11 @@ public class ISectorDAOImpl implements ISectorDAO {
     }
 
     @Override
+    public Sector getById(Long aLong) {
+        return null;
+    }
+
+    @Override
     public Sector getByName(String name) {
         Sector sector = null;
         try {

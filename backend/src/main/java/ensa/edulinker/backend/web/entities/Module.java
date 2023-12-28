@@ -2,7 +2,6 @@ package ensa.edulinker.backend.web.entities;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -10,10 +9,9 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sector implements Serializable {
+public class Module {
 
     private Long id;
     private String name;
-    private String nameAbbreviation;
-    private List<Module> modules;
+    private List<ModuleElement> moduleElements;
 }
