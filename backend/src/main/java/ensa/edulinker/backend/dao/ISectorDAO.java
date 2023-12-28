@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ISectorDAO {
 
-    public Sector Save(Sector s);
+    public Sector save(Sector s);
     public List<Sector> findAll();
     public Sector getByName(String name);
     public Sector update(Sector s);

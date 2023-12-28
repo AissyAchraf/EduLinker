@@ -1,9 +1,12 @@
-import ensa.edulinker.backend.dao.ISectorDAO;
+package ensa.edulinker.backend.dao;
+
 import ensa.edulinker.backend.web.entities.Sector;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
+import org.junit.Test;
 
 import java.util.List;
 
@@ -14,19 +17,24 @@ public class ISectorDAOImplTest extends DBTestCase {
     public ISectorDAOImplTest(String name) {
         super(name);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.cj.jdbc.Driver");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql://localhost:3306/your_database");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "your_username");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "your_password");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql://localhost:3306/edulinker_db");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "root");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "my-secret-pw");
     }
 
     @Override
     protected IDataSet getDataSet() throws Exception {
-        return new FlatXmlDataSetBuilder().build(getClass().getClassLoader().getResourceAsStream("dataset.xml"));
+        return new FlatXmlDataSetBuilder().build(getClass().getClassLoader().getResourceAsStream("static/sectors_datasets/dataset.xml"));
     }
 
     @Override
-    protected void setUpDatabaseConfig() {
-        
+    protected DatabaseOperation getTearDownOperation() {
+        return DatabaseOperation.DELETE_ALL;
+    }
+
+    @Override
+    protected DatabaseOperation getSetUpOperation() {
+        return DatabaseOperation.REFRESH;
     }
 
     @Override
@@ -35,46 +43,53 @@ public class ISectorDAOImplTest extends DBTestCase {
         sectorDAO = new ISectorDAOImpl();
     }
 
-    public void testSave() {
-        Sector testSector = new Sector();
-        testSector.setName("Test Sector");
-        Sector savedSector = sectorDAO.Save(testSector);
+    @Test
+    public void testGetByName() {
+        Sector sector = sectorDAO.getByName("Informatique et Ingénierie des Données");
 
-        assertNotNull(savedSector.getId());
-        assertEquals(testSector.getName(), savedSector.getName());
+        assertNotNull(sector);
+        assertEquals(1L, (long) sector.getId());
+        assertEquals(sector.getName(), "Informatique et Ingénierie des Données");
+        assertEquals(sector.getNameAbbreviation(), "IID");
     }
 
+    @Test
     public void testFindAll() {
         List<Sector> sectors = sectorDAO.findAll();
 
         assertNotNull(sectors);
-        assertEquals(2, sectors.size()); // Adjust based on your dataset
+        assertEquals(3, sectors.size());
     }
 
-    public void testGetByName() {
-        Sector sector = sectorDAO.getByName("Sector1");
-
-        assertNotNull(sector);
-        assertEquals(1, sector.getId().intValue()); // Adjust based on your dataset
+    @Test
+    public void testSave() {
+        Sector sector = new Sector();
+        sector.setName("GE");
+        Sector savedSector = sectorDAO.save(sector);
+        assertNotNull(savedSector);
+        assertEquals(savedSector.getName(), "GE");
     }
 
+    @Test
     public void testUpdate() {
-        Sector testSector = new Sector();
-        testSector.setName("Test Sector");
-        Sector savedSector = sectorDAO.Save(testSector);
+        Sector sector = new Sector();
+        sector.setId(3L);
+        sector.setName("Master Big Data Updated");
+        sector.setNameAbbreviation("MBD");
 
-        savedSector.setName("Updated Sector");
-        Sector updatedSector = sectorDAO.update(savedSector);
+        Sector updatedSector = sectorDAO.update(sector);
 
         assertNotNull(updatedSector);
-        assertEquals(savedSector.getId(), updatedSector.getId());
-        assertEquals(savedSector.getName(), updatedSector.getName());
+        assertEquals(updatedSector.getId(), sector.getId());
+        assertEquals(updatedSector.getName(), sector.getName());
+        assertEquals(updatedSector.getNameAbbreviation(), sector.getNameAbbreviation());
     }
 
+    @Test
     public void testDelete() {
         Sector testSector = new Sector();
-        testSector.setName("Test Sector");
-        Sector savedSector = sectorDAO.Save(testSector);
+        testSector.setName("Master Big Data");
+        Sector savedSector = sectorDAO.save(testSector);
 
         Long sectorId = savedSector.getId();
         sectorDAO.delete(sectorId);
