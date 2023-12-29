@@ -1,7 +1,6 @@
 package ensa.edulinker.backend.dao;
 
 import ensa.edulinker.backend.web.entities.Module;
-import ensa.edulinker.backend.web.entities.Sector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,10 +8,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IModuleDAOImpl implements IModuleDAO {
+class IModuleDAOImpl implements IModuleDAO {
 
     private Connection connection = MySQLDBConnection.getConnection();
-    private ISectorDAO sectorDAO = new ISectorDAOImpl();
+    private ISectorDAO sectorDAO = ISectorDAOFactory.getInstance();
 
     @Override
     public Module save(Module module) {

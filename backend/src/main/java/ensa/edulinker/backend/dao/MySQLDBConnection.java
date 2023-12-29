@@ -6,7 +6,7 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class MySQLDBConnection {
+class MySQLDBConnection {
 
     private static Connection connection;
     private static Configuration config;
@@ -36,11 +36,5 @@ public class MySQLDBConnection {
 
     public static Connection getConnection() {
         return connection;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(config.getString("database.url"));
-        System.out.println(config.getString("database.username"));
-        System.out.println(config.getString("database.password"));
     }
 }

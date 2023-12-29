@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ISectorDAOImpl implements ISectorDAO {
+class ISectorDAOImpl implements ISectorDAO {
 
     private Connection connection = MySQLDBConnection.getConnection();
 

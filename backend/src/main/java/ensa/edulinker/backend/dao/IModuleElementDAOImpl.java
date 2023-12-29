@@ -1,6 +1,5 @@
 package ensa.edulinker.backend.dao;
 
-import ensa.edulinker.backend.web.entities.Module;
 import ensa.edulinker.backend.web.entities.ModuleElement;
 
 import java.sql.Connection;
@@ -9,10 +8,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IModuleElementDAOImpl implements IModuleElementDAO {
+class IModuleElementDAOImpl implements IModuleElementDAO {
 
     private Connection connection = MySQLDBConnection.getConnection();
-    private IModuleDAO moduleDAO = new IModuleDAOImpl();
+    private IModuleDAO moduleDAO = IModuleDAOFactory.getInstance();
 
     @Override
     public ModuleElement save(ModuleElement moduleElement) {
