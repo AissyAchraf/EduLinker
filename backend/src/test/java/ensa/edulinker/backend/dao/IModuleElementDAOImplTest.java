@@ -90,6 +90,11 @@ public class IModuleElementDAOImplTest extends DBTestCase {
         moduleElement.setCoefficient(0.3f);
         moduleElement.setStatus(Boolean.TRUE);
 
+        Module module = new Module();
+        module.setId(3L);
+        module.setName("Big Data");
+        moduleElement.setModule(module);
+
         ModuleElement updatedModuleElement = moduleElementDAO.update(moduleElement);
 
         assertNotNull(updatedModuleElement);

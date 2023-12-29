@@ -122,7 +122,7 @@ class ISectorDAOImpl implements ISectorDAO {
     public void delete(Long id) {
         try {
             PreparedStatement ps = connection
-                    .prepareStatement("DELETE SECTORS WHERE id = ?");
+                    .prepareStatement("DELETE FROM SECTORS WHERE id = ?");
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (Exception e) {

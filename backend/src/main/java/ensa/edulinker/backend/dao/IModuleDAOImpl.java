@@ -123,7 +123,7 @@ class IModuleDAOImpl implements IModuleDAO {
     public void delete(Long id) {
         try {
             PreparedStatement ps = connection
-                    .prepareStatement("DELETE MODULES WHERE id = ?");
+                    .prepareStatement("DELETE FROM MODULES WHERE id = ?");
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (Exception e) {

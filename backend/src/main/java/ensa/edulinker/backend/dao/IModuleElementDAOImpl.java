@@ -131,7 +131,7 @@ class IModuleElementDAOImpl implements IModuleElementDAO {
     public void delete(Long id) {
         try {
             PreparedStatement ps = connection
-                    .prepareStatement("DELETE MODULE_ELEMENTS WHERE id = ?");
+                    .prepareStatement("DELETE FROM MODULE_ELEMENTS WHERE id = ?");
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
