@@ -15,4 +15,5 @@ public class Module {
     private String name;
     private Sector sector;
     private List<ModuleElement> moduleElements;
+    private Semester semester;
 }
