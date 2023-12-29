@@ -5,9 +5,9 @@
     <SECTORS id="3" name="Master Big Data" name_abbreviation="MBD" />
 
     <!-- MODULES -->
-    <MODULES id="1" name="Analyse pour l'ingénieur" sector_id="1"></MODULES>
-    <MODULES id="2" name="UML" sector_id="2"></MODULES>
-    <MODULES id="3" name="Big Data" sector_id="3"></MODULES>
+    <MODULES id="1" name="Analyse pour l'ingénieur" sector_id="1" semester="S3"></MODULES>
+    <MODULES id="2" name="UML" sector_id="2" semester="S4"></MODULES>
+    <MODULES id="3" name="Big Data" sector_id="3" semester="S3"></MODULES>
 
     <!-- MODULE ELEMENTS -->
     <MODULE_ELEMENTS id="1" name="Analyse pour l'ingénieur" coefficient="1" status="1" module_id="1"></MODULE_ELEMENTS>

@@ -2,6 +2,7 @@ package ensa.edulinker.backend.dao;
 
 import ensa.edulinker.backend.web.entities.Module;
 import ensa.edulinker.backend.web.entities.Sector;
+import ensa.edulinker.backend.web.entities.Semester;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
@@ -52,6 +53,7 @@ public class IModuleDAOImplTest extends DBTestCase {
         assertEquals(1L, (long) module.getId());
         assertEquals(module.getName(), "Analyse pour l'ingénieur");
         assertEquals((long) module.getSector().getId(), 1L);
+        assertEquals(Semester.S3, module.getSemester());
     }
 
     @Test
@@ -66,6 +68,7 @@ public class IModuleDAOImplTest extends DBTestCase {
     public void testSave() {
         Module module = new Module();
         module.setName("BI");
+        module.setSemester(Semester.S5);
         Sector sector = new Sector();
         sector.setName("Informatique et Ingénierie des Données");
         sector.setId(1L);
@@ -75,6 +78,7 @@ public class IModuleDAOImplTest extends DBTestCase {
         assertNotNull(savedModule);
         assertEquals(savedModule.getName(), "BI");
         assertEquals((long) savedModule.getSector().getId(), 1L);
+        assertEquals(Semester.S5, savedModule.getSemester());
     }
 
     @Test
@@ -82,6 +86,7 @@ public class IModuleDAOImplTest extends DBTestCase {
         Module module = new Module();
         module.setId(3L);
         module.setName("Module updated");
+        module.setSemester(Semester.S3);
 
         Module updatedModule = moduleDAO.update(module);
 

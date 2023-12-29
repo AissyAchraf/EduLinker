@@ -1,6 +1,7 @@
 package ensa.edulinker.backend.dao;
 
 import ensa.edulinker.backend.web.entities.Module;
+import ensa.edulinker.backend.web.entities.Semester;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +18,10 @@ class IModuleDAOImpl implements IModuleDAO {
     public Module save(Module module) {
         try {
             PreparedStatement ps = connection
-                    .prepareStatement("INSERT INTO MODULES(name, sector_id) VALUES (?, ?)");
+                    .prepareStatement("INSERT INTO MODULES(name, sector_id, semester) VALUES (?, ?, ?)");
             ps.setString(1, module.getName());
             ps.setLong(2, module.getSector().getId());
+            ps.setString(3, String.valueOf(module.getSemester()));
             ps.executeUpdate();
             PreparedStatement ps2 = connection
                     .prepareStatement("SELECT MAX(ID) AS MAX_ID FROM MODULES");
@@ -38,9 +40,10 @@ class IModuleDAOImpl implements IModuleDAO {
         Module module = null;
         try {
             PreparedStatement ps = connection
-                    .prepareStatement("UPDATE MODULES SET name = ? WHERE id = ?");
+                    .prepareStatement("UPDATE MODULES SET name = ?, semester = ? WHERE id = ?");
             ps.setString(1, m.getName());
-            ps.setLong(2, m.getId());
+            ps.setString(2, String.valueOf(m.getSemester()));
+            ps.setLong(3, m.getId());
             ps.executeUpdate();
             PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM MODULES WHERE id = ?");
             ps2.setLong(1, m.getId());
@@ -49,6 +52,8 @@ class IModuleDAOImpl implements IModuleDAO {
                 module = new Module();
                 module.setId(rs.getLong("id"));
                 module.setName(rs.getString("name"));
+                String semesterStr = rs.getString("semester");
+                module.setSemester(Semester.valueOf(semesterStr));
                 Long sectorId = rs.getLong("sector_id");
                 if(sectorId != null)
                 {
@@ -76,6 +81,8 @@ class IModuleDAOImpl implements IModuleDAO {
                 Module module = new Module();
                 module.setId(rs.getLong("id"));
                 module.setName(rs.getString("name"));
+                String semesterStr = rs.getString("semester");
+                module.setSemester(Semester.valueOf(semesterStr));
                 Long sectorId = rs.getLong("sector_id");
                 if(sectorId != null)
                 {
@@ -104,6 +111,8 @@ class IModuleDAOImpl implements IModuleDAO {
                 module = new Module();
                 module.setId(rs.getLong("id"));
                 module.setName(rs.getString("name"));
+                String semesterStr = rs.getString("semester");
+                module.setSemester(Semester.valueOf(semesterStr));
                 Long sectorId = rs.getLong("sector_id");
                 if(sectorId != null)
                 {
