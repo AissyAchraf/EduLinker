@@ -1,5 +1,16 @@
 <dataset>
+    <!-- SECTORS -->
     <SECTORS id="1" name="Informatique et Ingénierie des Données" name_abbreviation="IID" />
     <SECTORS id="2" name="Génie Informatique" name_abbreviation="GI" />
     <SECTORS id="3" name="Master Big Data" name_abbreviation="MBD" />
+
+    <!-- MODULES -->
+    <MODULES id="1" name="Analyse pour l'ingénieur" sector_id="1"></MODULES>
+    <MODULES id="2" name="UML" sector_id="2"></MODULES>
+    <MODULES id="3" name="Big Data" sector_id="3"></MODULES>
+
+    <!-- MODULE ELEMENTS -->
+    <MODULE_ELEMENTS id="1" name="Analyse pour l'ingénieur" coefficient="1" status="1" module_id="1"></MODULE_ELEMENTS>
+    <MODULE_ELEMENTS id="2" name="Modélisation orientée objet" coefficient="0.5" status="1" module_id="2"></MODULE_ELEMENTS>
+    <MODULE_ELEMENTS id="3" name="NoSQL" coefficient="0.3" status="1" module_id="3"></MODULE_ELEMENTS>
 </dataset>

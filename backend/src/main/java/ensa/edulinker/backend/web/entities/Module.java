@@ -13,5 +13,6 @@ public class Module {
 
     private Long id;
     private String name;
+    private Sector sector;
     private List<ModuleElement> moduleElements;
 }

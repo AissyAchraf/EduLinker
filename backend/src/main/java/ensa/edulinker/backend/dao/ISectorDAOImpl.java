@@ -54,8 +54,23 @@ public class ISectorDAOImpl implements ISectorDAO {
     }
 
     @Override
-    public Sector getById(Long aLong) {
-        return null;
+    public Sector getById(Long id) {
+        Sector sector = null;
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("SELECT * FROM SECTORS WHERE id = ?");
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                sector = new Sector();
+                sector.setId(rs.getLong("id"));
+                sector.setName(rs.getString("name"));
+                sector.setNameAbbreviation(rs.getString("name_abbreviation"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sector;
     }
 
     @Override

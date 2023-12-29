@@ -12,5 +12,6 @@ public class ModuleElement {
     private Long id;
     private String name;
     private float coefficient;
-    private boolean status;
+    private Boolean status;
+    private Module module;
 }
