@@ -17,4 +17,8 @@
     <!-- STUDENTS -->
     <STUDENTS last_name="Aissy" first_name="Achraf" email="achrafaissy@ensa.ma" phone_number="0676767676" cne="R1111111111" appoge="121212" birth_day="2001-07-10"></STUDENTS>
     <STUDENTS last_name="Teffal" first_name="Oussama" email="oussamateffal@ensa.ma" phone_number="0676767675" cne="R1111111112" appoge="121213" birth_day="2000-05-09"></STUDENTS>
+
+    <!-- EVALUATION PROCEDURES -->
+    <EVALUATION_PROCEDURES id="1" type="TP" coefficient="0.6" module_element_id="1"></EVALUATION_PROCEDURES>
+    <EVALUATION_PROCEDURES id="2" type="Projet" coefficient="0.4" module_element_id="1"></EVALUATION_PROCEDURES>
 </dataset>
