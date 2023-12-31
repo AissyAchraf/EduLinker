@@ -25,4 +25,8 @@
     <!-- STUDIES_IN -->
     <STUDIES_IN id="1" year="2022" sector_id="1" semester="S3" status="1" student_id="R1111111111" />
     <STUDIES_IN id="2" year="2021" sector_id="2" semester="S4" status="0" student_id="R1111111112" />
+
+    <!-- PROFESSORS -->
+    <PROFESSORS code="1" last_name="Marouane" first_name="Kamal" email="marouanekamal@ensa.ma" phone_number="0645434563" speciality="Software Engineering"></PROFESSORS>
+    <PROFESSORS code="2" last_name="El Idrissi" first_name="Ali" email="idrissiali@ensa.ma" phone_number="0687869350" speciality="Mathématiques"></PROFESSORS>
 </dataset>
