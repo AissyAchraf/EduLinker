@@ -21,4 +21,8 @@
     <!-- EVALUATION PROCEDURES -->
     <EVALUATION_PROCEDURES id="1" type="TP" coefficient="0.6" module_element_id="1"></EVALUATION_PROCEDURES>
     <EVALUATION_PROCEDURES id="2" type="Projet" coefficient="0.4" module_element_id="1"></EVALUATION_PROCEDURES>
+
+    <!-- STUDIES_IN -->
+    <STUDIES_IN id="1" year="2022" sector_id="1" semester="S3" status="1" student_id="R1111111111" />
+    <STUDIES_IN id="2" year="2021" sector_id="2" semester="S4" status="0" student_id="R1111111112" />
 </dataset>
