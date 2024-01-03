@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+<!--Topbar -->
+<div th:replace="topbar :: TOPBAR"></div>
+
+<!--Sidebar -->
+<div th:replace="sidebar :: SIDEBAR"></div>
+
+<!--Content -->
+<div class="content-start transition">
+  <div class="container-fluid dashboard">
+    <div class="content-header">
+      <h1>[[${title}]]</h1>
+      <p></p>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4>[[${title}]]</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Appogé</th>
+                <th scope="col">CNE</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Notes</th>
+              </tr>
+              </thead>
+              <tbody>
+              <!-- Itérer seulement pour le premier étudiant dans gradesList -->
+              <tr th:each="grade, iterStat : ${gradesList}" th:if="${iterStat.index == 0}">
+                <!-- Afficher les informations de l'étudiant -->
+                <th scope="row">[[${grade.student.appoge}]]</th>
+                <th scope="row">[[${grade.student.CNE}]]</th>
+                <td>[[${grade.student.lastName}]]</td>
+                <td>[[${grade.student.firstName}]]</td>
+
+                <!-- Boucle interne pour afficher toutes les notes de cet étudiant -->
+                <td>
+                  <div th:each="grade : ${gradesList}" th:if="${grade.student.CNE == grade.student.CNE}">
+                    <span th:text="${grade.procedure.type} + ' : ' + ${grade.grade} + ' '"></span>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Footer -->
+<div th:replace="footer :: FOOTER"></div>
+
+<!--Scripts -->
+<div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

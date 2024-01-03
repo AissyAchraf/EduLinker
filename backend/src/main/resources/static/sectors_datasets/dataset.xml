@@ -1,0 +1,36 @@
+<dataset>
+    <!-- SECTORS -->
+    <SECTORS id="1" name="Informatique et Ingénierie des Données" name_abbreviation="IID" />
+    <SECTORS id="2" name="Génie Informatique" name_abbreviation="GI" />
+    <SECTORS id="3" name="Master Big Data" name_abbreviation="MBD" />
+
+    <!-- MODULES -->
+    <MODULES id="1" name="Analyse pour l'ingénieur" sector_id="1" semester="S3"></MODULES>
+    <MODULES id="2" name="UML" sector_id="2" semester="S4"></MODULES>
+    <MODULES id="3" name="Big Data" sector_id="3" semester="S3"></MODULES>
+
+    <!-- MODULE ELEMENTS -->
+    <MODULE_ELEMENTS id="1" name="Analyse pour l'ingénieur" coefficient="1" status="1" module_id="1"></MODULE_ELEMENTS>
+    <MODULE_ELEMENTS id="2" name="Modélisation orientée objet" coefficient="0.5" status="1" module_id="2"></MODULE_ELEMENTS>
+    <MODULE_ELEMENTS id="3" name="NoSQL" coefficient="0.3" status="1" module_id="3"></MODULE_ELEMENTS>
+
+    <!-- STUDENTS -->
+    <STUDENTS last_name="Aissy" first_name="Achraf" email="achrafaissy@ensa.ma" phone_number="0676767676" cne="R1111111111" appoge="121212" birth_day="2001-07-10"></STUDENTS>
+    <STUDENTS last_name="Teffal" first_name="Oussama" email="oussamateffal@ensa.ma" phone_number="0676767675" cne="R1111111112" appoge="121213" birth_day="2000-05-09"></STUDENTS>
+
+    <!-- EVALUATION PROCEDURES -->
+    <EVALUATION_PROCEDURES id="1" type="TP" coefficient="0.6" module_element_id="1"></EVALUATION_PROCEDURES>
+    <EVALUATION_PROCEDURES id="2" type="Projet" coefficient="0.4" module_element_id="1"></EVALUATION_PROCEDURES>
+
+    <!-- STUDIES_IN -->
+    <STUDIES_IN id="1" year="2022" sector_id="1" semester="S3" status="1" student_id="R1111111111" />
+    <STUDIES_IN id="2" year="2021" sector_id="2" semester="S4" status="0" student_id="R1111111112" />
+
+    <!-- PROFESSORS -->
+    <PROFESSORS code="1" last_name="Marouane" first_name="Kamal" email="marouanekamal@ensa.ma" phone_number="0645434563" speciality="Software Engineering"></PROFESSORS>
+    <PROFESSORS code="2" last_name="El Idrissi" first_name="Ali" email="idrissiali@ensa.ma" phone_number="0687869350" speciality="Mathématiques"></PROFESSORS>
+
+    <!-- TEACHES -->
+    <TEACHES id="1" year="2022" professor_id="1" module_element_id="1" status="1"></TEACHES>
+    <TEACHES id="2" year="2023" professor_id="2" module_element_id="2" status="1"></TEACHES>
+</dataset>
