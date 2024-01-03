@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+  <!--Topbar -->
+  <div th:replace="topbar :: TOPBAR"></div>
+
+  <!--Sidebar -->
+  <div th:replace="sidebar :: SIDEBAR"></div>
+
+  <!--Content -->
+  <div class="content-start transition">
+    <div class="container-fluid dashboard">
+      <div class="content-header">
+        <h1>Dashboard</h1>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+  <!--Footer -->
+  <div th:replace="footer :: FOOTER"></div>
+
+  <!--Scripts -->
+  <div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

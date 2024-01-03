@@ -100,4 +100,24 @@ public class IEvaluationProcedureDAOImpl implements IEvaluationProcedureDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<EvaluationProcedure> findByModuleElement(Long moduleElementId) {
+        List<EvaluationProcedure> evaluationProcedures = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM EVALUATION_PROCEDURES WHERE element_id");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                EvaluationProcedure evaluationProcedure = new EvaluationProcedure();
+                evaluationProcedure.setId(rs.getLong("id"));
+                evaluationProcedure.setType(EvaluationProcedureType.valueOf(rs.getString("type")));
+                evaluationProcedure.setCoefficient(rs.getFloat("coefficient"));
+                evaluationProcedure.setElement(moduleElementDAO.getById(moduleElementId));
+                evaluationProcedures.add(evaluationProcedure);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return evaluationProcedures;
+    }
 }

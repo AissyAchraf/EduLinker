@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div th:fragment="TOPBAR">
+    <div class="topbar transition">
+      <div class="bars">
+        <button type="button" class="btn transition" id="sidebar-toggle">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+      <div class="menu">
+        <ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              [[${authenticatedUser.lastName}]] [[${authenticatedUser.firstName}]]
+              <img src="assets/images/avatar/avatar-1.png" alt="">
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" th:href="@{/logout}"><i class="fa fa-sign-out-alt  size-icon-1"></i> <span>Logout</span></a>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

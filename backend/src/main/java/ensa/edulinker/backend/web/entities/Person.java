@@ -1,5 +1,6 @@
 package ensa.edulinker.backend.web.entities;
 
+import ensa.edulinker.backend.security.Account;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

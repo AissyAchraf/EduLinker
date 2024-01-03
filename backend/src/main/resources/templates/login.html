@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+  <!--Content -->
+  <div id="auth">
+
+    <div class="row justify-content-center align-items-center">
+      <div class="col-6">
+        <div id="auth-right">
+          <div class="auth-logo">
+            <a th:href="@{/login}"><img src="assets/images/logo.png" alt="Logo"> Edulinker</a>
+          </div>
+          <h1 class="auth-title">Se connecter</h1>
+          <div th:if="${loginError}" class="alert alert-danger alert-dismissible text-white" role="alert">
+            <span class="text-sm">Email ou Mots de passe incorrecte(s)</span>
+          </div>
+          <form th:action="@{/login}" method="post">
+            <div class="form-group position-relative has-icon-left mb-4">
+              <input type="text" class="form-control form-control-xl" name="username" placeholder="Email">
+              <div class="form-control-icon">
+                <i class="bi bi-envelope"></i>
+              </div>
+            </div>
+            <div class="form-group position-relative has-icon-left mb-4">
+              <input type="password" class="form-control form-control-xl" name="password" placeholder="Password">
+              <div class="form-control-icon">
+                <i class="bi bi-shield-lock"></i>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5 mx-auto">Se connecter</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!--Scripts -->
+  <div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

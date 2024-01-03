@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+<!--Topbar -->
+<div th:replace="topbar :: TOPBAR"></div>
+
+<!--Sidebar -->
+<div th:replace="sidebar :: SIDEBAR"></div>
+
+<!--Content -->
+<div class="content-start transition">
+    <div class="container-fluid dashboard">
+        <div class="content-header">
+            <h1>[[${title}]]</h1>
+            <p></p>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>[[${title}]]</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Module</th>
+                                <th scope="col">Elements</th>
+                                <th scope="col">Semestre</th>
+                                <th scope="col">Filière</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="module : ${modulesList}">
+                                <th scope="row">[[${module.name}]]</th>
+                                <td><a th:href="@{/elements-module(id=${module.id})}">éléments</a></td>
+                                <td>[[${module.semester}]]</td>
+                                <td>[[${module.sector.nameAbbreviation}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Footer -->
+<div th:replace="footer :: FOOTER"></div>
+
+<!--Scripts -->
+<div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

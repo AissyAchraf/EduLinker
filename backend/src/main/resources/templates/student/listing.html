@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+    <!--Topbar -->
+    <div th:replace="topbar :: TOPBAR"></div>
+
+    <!--Sidebar -->
+    <div th:replace="sidebar :: SIDEBAR"></div>
+
+    <!--Content -->
+    <div class="content-start transition">
+        <div class="container-fluid dashboard">
+            <div class="content-header">
+                <h1>[[${title}]] - [[${moduleElement.module.sector.nameAbbreviation}]]</h1>
+                <p></p>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[[${title}]]</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Appogé</th>
+                                    <th scope="col">CNE</th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prénom</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="student : ${studentsList}">
+                                    <th scope="row">[[${student.appoge}]]</th>
+                                    <th scope="row">[[${student.CNE}]]</th>
+                                    <td>[[${student.lastName}]]</td>
+                                    <td>[[${student.firstName}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Footer -->
+    <div th:replace="footer :: FOOTER"></div>
+
+    <!--Scripts -->
+    <div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

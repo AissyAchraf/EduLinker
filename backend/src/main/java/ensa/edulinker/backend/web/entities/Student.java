@@ -14,4 +14,6 @@ public class Student extends Person {
     private String CNE;
     private String appoge;
     private Date birthday;
+    private Sector sector;
+    private Semester semester;
 }

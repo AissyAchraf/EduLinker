@@ -52,7 +52,6 @@ public class IModuleElementDAOImplTest extends DBTestCase {
         assertEquals(2L, (long) moduleElement.getId());
         assertEquals(moduleElement.getName(), "Modélisation orientée objet");
         assertEquals(moduleElement.getCoefficient(), 0.5f);
-        assertEquals(moduleElement.getStatus(), Boolean.TRUE);
         assertEquals((long) moduleElement.getModule().getId(), 2L);
     }
 
@@ -69,7 +68,6 @@ public class IModuleElementDAOImplTest extends DBTestCase {
         ModuleElement moduleElement = new ModuleElement();
         moduleElement.setName("Storm");
         moduleElement.setCoefficient(0.7f);
-        moduleElement.setStatus(Boolean.TRUE);
         Module module = new Module();
         module.setName("Big Data");
         module.setId(3L);
@@ -78,7 +76,6 @@ public class IModuleElementDAOImplTest extends DBTestCase {
         assertNotNull(savedModule);
         assertEquals(savedModule.getName(), "Storm");
         assertEquals(savedModule.getCoefficient(), 0.7f);
-        assertEquals(savedModule.getStatus(), Boolean.TRUE);
         assertEquals((long) savedModule.getModule().getId(), 3L);
     }
 
@@ -88,7 +85,6 @@ public class IModuleElementDAOImplTest extends DBTestCase {
         moduleElement.setId(3L);
         moduleElement.setName("NoSQL - MongoDB");
         moduleElement.setCoefficient(0.3f);
-        moduleElement.setStatus(Boolean.TRUE);
 
         Module module = new Module();
         module.setId(3L);

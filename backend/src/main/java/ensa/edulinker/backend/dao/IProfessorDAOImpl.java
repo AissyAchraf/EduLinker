@@ -109,4 +109,26 @@ public class IProfessorDAOImpl implements IProfessorDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Professor getByEmail(String email) {
+        Professor professor = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM PROFESSORS WHERE email = ?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                professor = new Professor();
+                professor.setCode(rs.getLong("code"));
+                professor.setLastName(rs.getString("last_name"));
+                professor.setFirstName(rs.getString("first_name"));
+                professor.setEmail(rs.getString("email"));
+                professor.setPhoneNumber(rs.getString("phone_number"));
+                professor.setSpeciality(rs.getString("speciality"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return professor;
+    }
 }
