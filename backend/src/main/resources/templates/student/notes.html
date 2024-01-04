@@ -76,5 +76,17 @@
 
 <!--Scripts -->
 <div th:replace="scripts :: SCRIPTS"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Vérifiez si le popup doit être affiché
+    var showPopup = [[${showPopup}]];
+    var popupMessage = "[[${popupMessage}]]";
+
+    if (showPopup) {
+      alert(popupMessage);
+    }
+  });
+</script>
+
 </body>
 </html>

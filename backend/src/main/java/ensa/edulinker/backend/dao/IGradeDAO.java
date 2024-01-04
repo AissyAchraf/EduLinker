@@ -9,5 +9,7 @@ public interface IGradeDAO extends GenericRepositoryTemplate<Grade, Long> {
     public List<Grade> findByModuleElement(Long moduleElementId);
 
     public Grade getByStudentAndProcedure(String studentId, Long procedureId);
+
+    Boolean getGradeStatusByModuleElement(Long moduleElementId);
 }
 

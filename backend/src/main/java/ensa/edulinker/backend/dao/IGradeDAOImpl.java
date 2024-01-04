@@ -128,4 +128,24 @@ public class IGradeDAOImpl implements IGradeDAO {
         }
         return grade;
     }
+
+    @Override
+    public Boolean getGradeStatusByModuleElement(Long moduleElementId) {
+        Boolean status = false;
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT g.status FROM GRADES g " +
+                            "JOIN EVALUATION_PROCEDURES e ON g.evaluation_procedure_id = e.id " +
+                            "JOIN MODULE_ELEMENTS m ON e.element_id = m.id " +
+                            "WHERE m.id = ? LIMIT 1");
+            ps.setLong(1, moduleElementId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getBoolean("status");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
 }
