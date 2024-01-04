@@ -7,4 +7,6 @@ import java.util.List;
 public interface GradeService {
 
     public List<Grade> findByModuleElement(Long moduleElementId);
+
+    Boolean getGradeStatusByModuleElement(Long moduleElementId);
 }

@@ -21,42 +21,48 @@
             <div class="card">
                 <div class="card-header">
                     <h4>[[${title}]]</h4>
+                    <p th:if="${status}" style="color: red;">Les notes de cet élément sont déjà validées !</p>
+                    <a th:if="${status}" th:href="@{/download-notes(moduleElementId=${moduleElement.id})}" class="btn btn-secondary">Télécharger les Notes</a>
+
                 </div>
+
                 <div class="card-body">
                     <form th:action="@{/insertion-notes}" method="post">
                         <input hidden name="moduleElementId" th:value="${moduleElement.id}">
                         <input type="hidden" name="status" id="gradesStatus" value="0">
                         <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Appogé</th>
-                                <th>CNE</th>
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th th:each="procedure : ${proceduresList}">Note [[${procedure.type}]]</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="student, iterStat : ${studentsList}">
-                                <td th:text="${student.appoge}"></td>
-                                <td th:text="${student.CNE}"></td>
-                                <td th:text="${student.lastName}"></td>
-                                <td th:text="${student.firstName}"></td>
-                                <td th:each="procedure : ${proceduresList}">
-                                    <input th:each="grade : ${gradesList}" th:if="${grade.student.CNE == student.CNE && procedure.type == grade.procedure.type}"
-                                           type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" th:value="${grade.grade}" />
-                                    <input th:each="grade, gradeStat : ${gradesList}" th:if="${(grade.student.CNE != student.CNE || procedure.type != grade.procedure.type) && gradeStat.index == #lists.size(gradesList)}"
-                                           type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" value="0" />
-                                    <input th:if="${0 == #lists.size(gradesList)}"
-                                           type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" value="0" />
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Appogé</th>
+                                    <th>CNE</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th th:each="procedure : ${proceduresList}">Note [[${procedure.type}]]</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="student, iterStat : ${studentsList}">
+                                    <td th:text="${student.appoge}"></td>
+                                    <td th:text="${student.CNE}"></td>
+                                    <td th:text="${student.lastName}"></td>
+                                    <td th:text="${student.firstName}"></td>
+                                    <td th:each="procedure : ${proceduresList}">
+                                        <input th:each="grade : ${gradesList}" th:if="${grade.student.CNE == student.CNE && procedure.type == grade.procedure.type}"
+                                               type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" th:value="${grade.grade}" th:disabled="${status}"/>
+                                        <input th:each="grade, gradeStat : ${gradesList}" th:if="${(grade.student.CNE != student.CNE || procedure.type != grade.procedure.type) && gradeStat.index == #lists.size(gradesList)}"
+                                               type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" value="0" th:disabled="${status}"/>
+                                        <input th:if="${0 == #lists.size(gradesList)}"
+                                               type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" value="0" th:disabled="${status}"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <button class="btn btn-primary" type="submit" onclick="document.getElementById('gradesStatus').value='1';">Valider</button>
-                        <button class="btn btn-outline-primary" type="submit">Sauvgarder comme brouillant</button>
+                        <button class="btn btn-primary" type="submit" id="validerButton" onclick="document.getElementById('gradesStatus').value='1';" th:disabled="${status}">Valider</button>
+                        <button class="btn btn-outline-primary" type="submit" id="validerButton2" th:disabled="${status}">Sauvgarder comme brouillant</button>
+
+
                     </form>
                 </div>
             </div>
@@ -69,5 +75,68 @@
 
 <!--Scripts -->
 <div th:replace="scripts :: SCRIPTS"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to check for grade values 0 or 20
+        function checkGradesBeforeSubmit() {
+            let hasZeroOrTwentyGrade = false;
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                let value = parseFloat(input.value);
+                if (value === 0 || value === 20) {
+                    hasZeroOrTwentyGrade = true;
+                }
+            });
+
+            if (hasZeroOrTwentyGrade) {
+                if (confirm("Il y a une note = 0 ou 20. Voulez-vous corriger ou envoyer?")) {
+                    // User clicked "Envoyer"
+                    return true;
+                } else {
+                    // User clicked "Corriger"
+                    return false;
+                }
+            }
+
+            return true; // No zero or twenty grades found, allow form submission
+        }
+
+        // Function to validate grade input values
+        function validateGradeInput() {
+            let value = parseFloat(this.value);
+            if (value < 0 || value > 20) {
+                this.style.borderColor = 'red';
+                this.nextElementSibling.innerHTML = 'La note doit être entre 0 et 20';
+                this.dataset.valid = "false"; // Mark as invalid
+            } else {
+                this.style.borderColor = '';
+                this.nextElementSibling.innerHTML = '';
+                this.dataset.valid = "true"; // Mark as valid
+            }
+        }
+
+        // Attach event listener to grade inputs for validation
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', validateGradeInput);
+            // Create a span for error messages
+            let span = document.createElement('span');
+            span.style.color = 'red';
+            input.parentNode.insertBefore(span, input.nextSibling);
+            input.dataset.valid = "true"; // Initialize as valid
+        });
+
+        // Attach event listener to both "Valider" buttons
+        document.querySelectorAll('#validerButton, #validerButton2').forEach(button => {
+            button.addEventListener('click', function (event) {
+                let isValid = Array.from(document.querySelectorAll('input[type="number"]')).every(input => input.dataset.valid === "true");
+
+                if (!isValid || !checkGradesBeforeSubmit()) {
+                    event.preventDefault(); // Prevent form submission if there are invalid grades or zero/twenty grades
+                }
+            });
+        });
+
+    });
+</script>
+
 </body>
 </html>

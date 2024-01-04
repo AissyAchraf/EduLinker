@@ -6,6 +6,10 @@ import ensa.edulinker.backend.service.*;
 import ensa.edulinker.backend.web.entities.*;
 import ensa.edulinker.backend.web.entities.Module;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -141,12 +146,18 @@ public class ModuleElementController {
             model.addAttribute("errorMessage", "Vous n'êtes pas autorisé pour accèder à cette ressource!");
             return "error_.html";
         }
+        if (gradeService.getGradeStatusByModuleElement(moduleElementId)) {
+          Boolean isFinal= true;
+          model.addAttribute("status",isFinal);
+        }
+
         if(authentication != null && accountUserService.loadAccountByEmail(authentication.getName()).getRole() == Role.PROF) {
             Professor professor = professorService.getByEmail(authentication.getName());
             if (professor.getCode() != moduleElement.getProfessor().getCode()) {
                 model.addAttribute("errorMessage", "Vous n'êtes pas autorisé pour accèder à cette ressource!");
                 return "error_.html";
             }
+
             gradesList = gradeService.findByModuleElement(moduleElementId);
             model.addAttribute("gradesList", gradesList);
             model.addAttribute("studentsList", studentsList);
@@ -170,4 +181,52 @@ public class ModuleElementController {
         studentService.processGradesSubmission(paramMap);
         return "redirect:/notes?moduleElementId="+request.getParameter("moduleElementId");
     }
+
+    @GetMapping("/download-notes")
+    public void downloadNotes(HttpServletResponse response, @RequestParam("moduleElementId") Long moduleElementId) throws IOException {
+        ModuleElement moduleElement = moduleElementService.getById(moduleElementId);
+        List<Student> studentsList = studentService.findBySectorAndSemester(moduleElement.getId(), moduleElement.getModule().getSemester());
+        List<EvaluationProcedure> proceduresList = evaluationProceduresService.findByModuleElement(moduleElementId);
+        List<Grade> gradesList = gradeService.findByModuleElement(moduleElementId);
+
+        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+            XSSFSheet sheet = workbook.createSheet("Notes");
+            int rowNum = 0;
+            Row headerRow = sheet.createRow(rowNum++);
+
+            String[] headers = new String[]{"Appogé", "CNE", "Nom", "Prénom"};
+            int cellNum = 0;
+            for (String header : headers) {
+                headerRow.createCell(cellNum++).setCellValue(header);
+            }
+            for (EvaluationProcedure procedure : proceduresList) {
+                headerRow.createCell(cellNum++).setCellValue("Note " + procedure.getType());
+            }
+
+            for (Student student : studentsList) {
+                Row row = sheet.createRow(rowNum++);
+                int cellIndex = 0;
+                row.createCell(cellIndex++).setCellValue(student.getAppoge());
+                row.createCell(cellIndex++).setCellValue(student.getCNE());
+                row.createCell(cellIndex++).setCellValue(student.getLastName());
+                row.createCell(cellIndex++).setCellValue(student.getFirstName());
+
+                for (EvaluationProcedure procedure : proceduresList) {
+                    Grade grade = gradesList.stream()
+                            .filter(g -> g.getStudent().getCNE().equals(student.getCNE()) && g.getProcedure().getType().equals(procedure.getType()))
+                            .findFirst()
+                            .orElse(null);
+
+                    String gradeValue = grade != null ? String.valueOf(grade.getGrade()) : "";
+                    row.createCell(cellIndex++).setCellValue(gradeValue);
+                }
+            }
+
+            response.setContentType("application/octet-stream");
+            String fileName = "Notes_" + moduleElement.getName().replaceAll(" ", "_") + ".xlsx";
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            workbook.write(response.getOutputStream());
+        }
+    }
+
 }

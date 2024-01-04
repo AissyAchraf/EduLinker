@@ -16,4 +16,9 @@ public class GradeServiceImpl implements GradeService {
     public List<Grade> findByModuleElement(Long moduleElementId) {
         return gradeDAO.findByModuleElement(moduleElementId);
     }
+    @Override
+    public Boolean getGradeStatusByModuleElement(Long moduleElementId) {
+        Boolean status = gradeDAO.getGradeStatusByModuleElement(moduleElementId);
+        return status;
+    }
 }
