@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+<!--Topbar -->
+<div th:replace="topbar :: TOPBAR"></div>
+
+<!--Sidebar -->
+<div th:replace="sidebar :: SIDEBAR"></div>
+
+<!--Content -->
+<div class="content-start transition">
+  <div class="container-fluid dashboard">
+    <div class="content-header">
+      <h1>[[${title}]]</h1>
+      <p></p>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4>[[${title}]]</h4>
+        </div>
+        <div class="card-body">
+          <form th:action="@{/modules/addModule}" method="post">
+            <div class="form-group">
+              <label for="name">Nom du Module :</label>
+              <input type="text" class="form-control" id="name" name="name" th:value="${module.name}" required>
+            </div>
+
+            <div class="form-group">
+              <label for="sector">Filière :</label>
+              <select class="form-control" id="sector" name="sectorId" required>
+                <option value="">Filière</option>
+                <option th:each="s : ${sectorsList}" th:value="${s.id}" th:text="${s.name}"></option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="semester">Semestre :</label>
+              <select class="form-control" id="semester" name="semester" required>
+                <option value="">Semestre</option>
+                <option value="S1">S1</option>
+                <option value="S2">S2</option>
+                <option value="S3">S3</option>
+                <option value="S4">S4</option>
+                <option value="S5">S5</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ajouter le Module</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Footer -->
+<div th:replace="footer :: FOOTER"></div>
+
+<!--Scripts -->
+<div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

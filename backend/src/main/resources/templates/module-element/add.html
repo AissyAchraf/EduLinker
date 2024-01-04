@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+<!--Topbar -->
+<div th:replace="topbar :: TOPBAR"></div>
+
+<!--Sidebar -->
+<div th:replace="sidebar :: SIDEBAR"></div>
+
+<!--Content -->
+<div class="content-start transition">
+  <div class="container-fluid dashboard">
+    <div class="content-header">
+      <h1>[[${title}]]</h1>
+      <p></p>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4>[[${title}]]</h4>
+        </div>
+        <div class="card-body">
+          <form th:action="@{/modules/addElement}" method="post">
+            <div class="form-group">
+              <label for="name">Nom du élément du module :</label>
+              <input type="text" class="form-control" id="name" name="name" th:value="${element.name}" required>
+            </div>
+
+            <div class="form-group">
+              <label for="module">Module :</label>
+              <select class="form-control" id="module" name="moduleId" required>
+                <option value="">Module</option>
+                <option th:each="m : ${modulesList}" th:value="${m.id}" th:text="${m.name}"></option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="coefficient">Coefficient :</label>
+              <input type="number" step="0.01" class="form-control" id="coefficient" name="coefficient" th:value="${element.coefficient}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ajouter l'élément du Module</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Footer -->
+<div th:replace="footer :: FOOTER"></div>
+
+<!--Scripts -->
+<div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

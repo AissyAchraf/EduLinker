@@ -150,6 +150,7 @@ class IModuleElementDAOImpl implements IModuleElementDAO {
                 moduleElement.setId(rs.getLong("id"));
                 moduleElement.setName(rs.getString("name"));
                 moduleElement.setCoefficient(rs.getFloat("coefficient"));
+                moduleElement.setModule(moduleDAO.getById(moduleId));
                 moduleElements.add(moduleElement);
             }
         } catch (Exception e) {

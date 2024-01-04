@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ModuleElementService {
 
+    public ModuleElement save(ModuleElement moduleElement);
     public List<ModuleElement> findAll();
     public List<ModuleElement> findByModule(Long moduleId);
     public List<ModuleElement> findByProfessor(Long professorId);

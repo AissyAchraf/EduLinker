@@ -123,6 +123,8 @@ public class ModuleElementController {
         } else {
             gradesList = gradeService.findByModuleElement(moduleElementId);
             model.addAttribute("gradesList", gradesList);
+            model.addAttribute("studentsList", studentsList);
+            model.addAttribute("proceduresList", proceduresList);
             model.addAttribute("title", "Notes - "+moduleElement.getName());
             model.addAttribute("moduleElement", moduleElement);
             return "/student/notes.html";

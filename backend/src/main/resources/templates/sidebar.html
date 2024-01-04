@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https:/www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="https:/www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,7 +13,7 @@
 
                   <!-- Logo -->
                   <div class="logo">
-                      <h2 class="mb-0"><img src="assets/images/logo.png"> Edulinker</h2>
+                      <h2 class="mb-0"><img src="../static/assets/images/logo.png" th:src="@{/assets/images/logo.png}"> Edulinker</h2>
                   </div>
 
                   <ul class="side-menu">
@@ -24,13 +24,13 @@
                       </li>
 
                       <li>
-                          <a th:href="@{/mes-elements-module}" sec:authorize="hasRole('PROF')">
+                          <a th:href="@{/mes-elements-module}" sec:authorize="hasRole('ROLE_PROF')">
                               <i class='bx bxs-book-reader icon' ></i> Mes éléments de modules
                           </a>
                       </li>
 
                       <li>
-                          <a th:href="@{/modules}" sec:authorize="hasRole('ADMIN')">
+                          <a th:href="@{/modules}" sec:authorize="hasRole('ROLE_ADMIN')">
                               <i class='bx bxs-book-reader icon' ></i> Modules
                           </a>
                       </li>

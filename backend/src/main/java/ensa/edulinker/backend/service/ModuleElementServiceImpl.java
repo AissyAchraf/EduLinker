@@ -14,6 +14,11 @@ public class ModuleElementServiceImpl implements ModuleElementService {
     private IModuleElementDAO moduleElementDAO = IModuleElementDAOFactory.getInstance();
 
     @Override
+    public ModuleElement save(ModuleElement moduleElement) {
+        return moduleElementDAO.save(moduleElement);
+    }
+
+    @Override
     public List<ModuleElement> findAll() {
         return moduleElementDAO.findAll();
     }
