@@ -1,7 +1,6 @@
 package ensa.edulinker.backend.dao;
 
 import ensa.edulinker.backend.web.entities.Grade;
-import ensa.edulinker.backend.web.entities.ModuleElement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +15,47 @@ public class IGradeDAOImpl implements IGradeDAO {
     private IStudentDAO studentDAO = new IStudentDAOImpl();
 
     @Override
-    public Grade save(Grade e) {
-        return null;
+    public Grade save(Grade grade) {
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("INSERT INTO GRADES(grade, evaluation_procedure_id, status, student_id) VALUES (?, ?, ?, ?)");
+            ps.setFloat(1, grade.getGrade());
+            ps.setLong(2, grade.getProcedure().getId());
+            ps.setBoolean(3, grade.getStatus());
+            ps.setString(4, grade.getStudent().getCNE());
+            ps.executeUpdate();
+            PreparedStatement ps2 = connection
+                    .prepareStatement("SELECT MAX(ID) AS MAX_ID FROM GRADES");
+            ResultSet rs = ps2.executeQuery();
+            if(rs.next()) {
+                grade.setId(rs.getLong("MAX_ID"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grade;
     }
 
     @Override
-    public Grade update(Grade e) {
-        return null;
+    public Grade update(Grade grade) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "UPDATE GRADES SET grade = ?, evaluation_procedure_id = ?, status = ?, student_id = ? WHERE id = ?");
+
+            ps.setFloat(1, grade.getGrade());
+            ps.setLong(2, grade.getProcedure().getId());
+            ps.setBoolean(3, grade.getStatus());
+            ps.setString(4, grade.getStudent().getCNE());
+            ps.setLong(5, grade.getId());
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return grade;
     }
+
 
     @Override
     public List<Grade> findAll() {
@@ -49,7 +81,7 @@ public class IGradeDAOImpl implements IGradeDAO {
                             "        FROM GRADES g\n" +
                             "        JOIN EVALUATION_PROCEDURES e ON g.evaluation_procedure_id = e.id\n" +
                             "        JOIN MODULE_ELEMENTS m ON e.element_id = m.id\n" +
-                            "        WHERE m.id = ? GROUP BY g.id");
+                            "        WHERE m.id = ?");
             ps.setLong(1, moduleElementId);
             ps.executeQuery();
             ResultSet rs = ps.getResultSet();
@@ -68,5 +100,32 @@ public class IGradeDAOImpl implements IGradeDAO {
             e.printStackTrace();
         }
         return grades;
+    }
+
+    @Override
+    public Grade getByStudentAndProcedure(String studentId, Long procedureId) {
+        Grade grade = null;
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("SELECT *\n" +
+                            "        FROM GRADES \n"+
+                            "        WHERE student_id = ? AND evaluation_procedure_id = ?");
+            ps.setString(1, studentId);
+            ps.setLong(2, procedureId);
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            if (rs.next()) {
+                grade = new Grade();
+                grade.setId(rs.getLong("id"));
+                grade.setGrade(rs.getFloat("grade"));
+                Long evaluationProceduresId = rs.getLong("evaluation_procedure_id");
+                grade.setProcedure(evaluationProcedureDAO.getById(evaluationProceduresId));
+                grade.setStudent(studentDAO.getById(studentId));
+                grade.setStatus(rs.getBoolean("status"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grade;
     }
 }

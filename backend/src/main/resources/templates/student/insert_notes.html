@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="head :: HEAD"></div>
+<body>
+
+<!--Topbar -->
+<div th:replace="topbar :: TOPBAR"></div>
+
+<!--Sidebar -->
+<div th:replace="sidebar :: SIDEBAR"></div>
+
+<!--Content -->
+<div class="content-start transition">
+    <div class="container-fluid dashboard">
+        <div class="content-header">
+            <h1>[[${title}]]</h1>
+            <p></p>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>[[${title}]]</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/insertion-notes}" method="post">
+                        <input hidden name="moduleElementId" th:value="${moduleElement.id}">
+                        <!-- <input hidden name="status" id="gradesStatus" value="0"> -->
+                        <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Appogé</th>
+                                <th>CNE</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th th:each="procedure : ${proceduresList}">Note [[${procedure.type}]]</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="student, iterStat : ${studentsList}">
+                                <td th:text="${student.appoge}"></td>
+                                <td th:text="${student.CNE}"></td>
+                                <td th:text="${student.lastName}"></td>
+                                <td th:text="${student.firstName}"></td>
+                                <td th:each="procedure : ${proceduresList}">
+                                    <span
+                                            th:each="grade : ${gradesList}"
+                                            th:with="matchedGrade=${grade}"
+                                            th:if="${grade.student.CNE == student.CNE && procedure.type == grade.procedure.type}"
+                                            ></span>
+                                    <input th:if="${machedGrade != null}"
+                                           type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" th:value="${matchedGrade.grade}" />
+                                    <input th:if="${matchedGrade == null}"
+                                           type="number" step="0.01" th:name="'grade_' + ${student.CNE} + '_' + ${moduleElement.id} + '_' + ${procedure.type}" value="1" />
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Valider</button>
+                        <button class="btn btn-outline-primary" type="submit">Sauvgarder comme brouillant</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Footer -->
+<div th:replace="footer :: FOOTER"></div>
+
+<!--Scripts -->
+<div th:replace="scripts :: SCRIPTS"></div>
+</body>
+</html>

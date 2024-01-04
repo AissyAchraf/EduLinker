@@ -21,6 +21,9 @@
       <div class="card">
         <div class="card-header">
           <h4>[[${title}]]</h4>
+          <p>
+            <a th:href="@{/insertion-notes(moduleElementId=${moduleElement.id})}">Insérer les notes</a>
+          </p>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -36,19 +39,27 @@
               </thead>
               <tbody>
               <!-- Itérer seulement pour le premier étudiant dans gradesList -->
-              <tr th:each="grade, iterStat : ${gradesList}" th:if="${iterStat.index == 0}">
+              <tr th:each="student, iterStat : ${studentsList}">
                 <!-- Afficher les informations de l'étudiant -->
-                <th scope="row">[[${grade.student.appoge}]]</th>
-                <th scope="row">[[${grade.student.CNE}]]</th>
-                <td>[[${grade.student.lastName}]]</td>
-                <td>[[${grade.student.firstName}]]</td>
+                <th scope="row">[[${student.appoge}]]</th>
+                <th scope="row">[[${student.CNE}]]</th>
+                <td>[[${student.lastName}]]</td>
+                <td>[[${student.firstName}]]</td>
 
                 <!-- Boucle interne pour afficher toutes les notes de cet étudiant -->
                 <td>
-                  <div th:each="grade : ${gradesList}" th:if="${grade.student.CNE == grade.student.CNE}">
-                    <span th:text="${grade.procedure.type} + ' : ' + ${grade.grade} + ' '"></span>
+                  <div th:each="procedure : ${proceduresList}">
+                    <span>[[${procedure.type}]] :
+                      <div th:each="grade : ${gradesList}" th:if="${grade.student.CNE == student.CNE && procedure.type == grade.procedure.type}" th:remove="tag">
+                        <span th:text="${grade.grade}"></span>
+                      </div>
+                    </span>
+
                   </div>
                 </td>
+
+
+
               </tr>
               </tbody>
             </table>
@@ -56,6 +67,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
 

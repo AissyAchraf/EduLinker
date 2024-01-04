@@ -11,6 +11,8 @@ public class AccountUserServiceImpl implements AccountUserService {
     private PasswordEncoder passwordEncoder;
     private AccountUserDAO accountUserDAO = new AccountUserDAOImpl();
 
+
+
     @Override
     public Account loadAccountByEmail(String email) {
         return accountUserDAO.findByEmail(email);
